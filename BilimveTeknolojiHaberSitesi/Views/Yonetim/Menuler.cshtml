@@ -1,0 +1,70 @@
+﻿@model IEnumerable<BilimveTeknolojiHaberSitesi.Models.Menuler>
+
+@{
+    ViewData["Title"] = "Menuler";
+    Layout = "~/Views/Shared/_YonetimTema.cshtml";
+}
+
+<h1>Menuler</h1>
+
+<p>
+    <a asp-action="MenuEkle">Yeni Ekle</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+               Başlık
+            </th>
+            <th>
+               Url
+            </th>
+            <th>
+               Sıra
+            </th>
+            <th>
+                Üst Menu
+            </th>
+            <th>
+              Aktif
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Baslik)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Url)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sira)
+            </td>
+            <td>
+             
+                @{ 
+                    BilimHaberDBContext db = new BilimHaberDBContext();
+                    var ustmenuler = db.Menulers.Where(m => m.MenuId == item.UstId).FirstOrDefault();
+                    if (item.UstId != null)
+                    {
+                        @ustmenuler.Baslik
+                    }
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Aktif)
+            </td>
+           
+            <td>
+                <a asp-action="MenuGetir" asp-route-id="@item.MenuId">Düzenle</a> |
+                <a asp-action="MenuSayfalari" asp-route-id="@item.MenuId">Sayfaları</a> |
+                <a asp-action="MenuSil" asp-route-id="@item.MenuId" onclick="return confirm('Bu kaydı Silmek istediğinizden emin misiniz ?')">Sil</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

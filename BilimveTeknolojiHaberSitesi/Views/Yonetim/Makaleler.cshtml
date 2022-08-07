@@ -1,0 +1,58 @@
+﻿@model IEnumerable<BilimveTeknolojiHaberSitesi.Models.Makaleler>
+
+@{
+    ViewData["Title"] = "Makaleler";
+    Layout = "~/Views/Shared/_YonetimTema.cshtml";
+}
+
+<h1>Makaleler</h1>
+
+<p>
+    <a asp-action="MakaleEkle">Ekle</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Baslik)
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.Sira)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Eklenmetarihi)
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.Aktif)
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Baslik)
+            </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.Sira)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Eklenmetarihi)
+            </td>
+          
+            <td>
+                @Html.DisplayFor(modelItem => item.Aktif)
+            </td>
+            <td>
+                <a asp-action="MakaleGetir" asp-route-id="@item.MakaleId">Düzenle</a> |
+                <a asp-action="MakaleSil" asp-route-id="@item.MakaleId" onclick="return confirm('Bu makaleyi silmek istediğinizden emin misiniz?')">Sil</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

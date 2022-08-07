@@ -1,0 +1,119 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    .dst-btm p{
+       word-break:break-word;
+       
+    }
+</style>
+
+
+<div class="text-center">
+    
+    <section class="w3l-grids-3 py-5">
+        <div class="container py-md-5">
+            <div class="title-content text-left mb-lg-5 mb-4">
+                <h7 class="sub-title">Anasayfa/Bilim & Teknoloji</h7>
+
+            </div>
+            <div class="row bottom-ab-grids">
+       
+    @{
+        BilimHaberDBContext db = new BilimHaberDBContext();
+
+
+
+        var sayfalar = db.Sayfalars.Where(a => a.MenuId == 1 && a.Silindi == false && a.Aktif == true)
+            .OrderByDescending(b => b.EklenmeTarihi).ToList();
+        foreach (var item in sayfalar)
+        {
+            var sub = "";
+            int icerikuzunlugu = 0;
+            if (item.Icerik != null)
+            {
+                icerikuzunlugu = Convert.ToInt32(item.Icerik.Length);
+            }
+
+            if (icerikuzunlugu < 160)
+            { sub = item.Icerik; }
+            else if (item.Icerik == null)
+            {
+                sub = "";
+            }
+            else {
+                sub = item.Icerik.Substring(0, 150);
+
+            }
+
+                            <div class="col-lg-6 subject-card mt-lg-0 mt-4" >
+                                <div class="subject-card-header p-4" style="word-wrap:break-word">
+                                    <a href="/Home/BilimselBilgiler/@item.SayfaId" class="card_title p-lg-4d-block">
+                                        <div class="row align-items-center">
+                                            <div class="col-sm-5 subject-img">
+                                                <img src="~/assets/images/g1.jpg" class="img-fluid" alt="">
+                                            </div>
+                                            <div class="col-sm-7 subject-content mt-sm-0 mt-4">
+                                                <h4>@item.Baslik</h4>
+                                             
+                                                <p></p>
+
+                                                <div class="dst-btm text-sm-center sub-para" >
+                                                    @{ 
+                                                            var etiket="<div class='sub-para'>"+sub+"</div>";
+                                                    }
+                                                    @Html.Raw(etiket)
+                                                 
+                                                </div>
+                                               
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+
+                        }
+
+                    }
+
+                </div>
+            </div>
+        </section>
+    @*<section class="w3l-grids1">
+       
+        <div class="hny-three-grids py-5">
+            <div class="container py-lg-5">
+                <div class="title-content text-left mb-lg-5 mb-4">
+                    <h7 class="sub-title">Anasayfa/Bilim & Teknoloji</h7>
+
+                </div>
+                <div class="row">
+
+                    @{
+                        BilimHaberDBContext db = new BilimHaberDBContext();
+
+
+
+                        var sayfalar = db.Sayfalars.Where(a => a.MenuId == 1 && a.Silindi == false && a.Aktif == true)
+                            .OrderByDescending(b => b.EklenmeTarihi).ToList();
+                        foreach (var item in sayfalar)
+                        {
+                            var sub = item.Icerik.Substring(0, 150);
+                            <div class="col-md-4 col-sm-6 mt-0 grids5-info">
+
+                                <a href="/Home/BilimselBilgiler/@item.SayfaId"><img src="~/assets/images/g1.jpg" class="img-fluid" alt=""></a>
+
+                                <h4><a href="/Home/BilimselBilgiler/@item.SayfaId">@item.Baslik</a></h4>
+                                <p>@sub</p>
+                            </div>
+                        }
+                    }
+
+
+                </div>
+            </div>
+        </div>
+    </section>*@
+</div>
+           

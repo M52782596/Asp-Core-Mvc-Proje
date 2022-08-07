@@ -1,0 +1,60 @@
+﻿@model BilimveTeknolojiHaberSitesi.Models.Kullanicilar
+
+@{
+    ViewData["Title"] = "KullaniciEkle";
+    Layout = "~/Views/Shared/_YonetimTema.cshtml";
+}
+
+<h1>KullaniciEkle</h1>
+
+<h4>Kullanicilar</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="KullaniciEkle">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Adı" class="control-label"></label>
+                <input asp-for="Adı" class="form-control" />
+                <span asp-validation-for="Adı" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Soyadı" class="control-label"></label>
+                <input asp-for="Soyadı" class="form-control" />
+                <span asp-validation-for="Soyadı" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Eposta" class="control-label"></label>
+                <input asp-for="Eposta" class="form-control" />
+                <span asp-validation-for="Eposta" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="Parola" class="control-label"></label>
+                <input type="password" asp-for="Parola" class="form-control" />
+                <span asp-validation-for="Parola" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="YetkiId" class="control-label"></label>
+                <select asp-for="YetkiId" class ="form-control" asp-items="ViewBag.YetkiId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Aktif" class="control-label"></label>
+                <select asp-for="Aktif" class="form-control">
+                    <option value="True">Evet</option>
+                    <option value="False">Hayır</option>
+                </select>
+                <span asp-validation-for="Aktif" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" value="Ekle" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Kullanicilar">Geri</a>
+</div>
+

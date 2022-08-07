@@ -1,0 +1,56 @@
+﻿@model BilimveTeknolojiHaberSitesi.Models.Menuler
+
+@{
+    ViewData["Title"] = "MenuGuncelle";
+    Layout = "~/Views/Shared/_YonetimTema.cshtml";
+}
+
+<h1>MenuGuncelle</h1>
+
+<h4>Menuler</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="MenuGuncelle">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input type="hidden" asp-for="MenuId" />
+            <div class="form-group">
+                <label asp-for="Baslik" class="control-label">Başlık</label>
+                <input asp-for="Baslik" class="form-control" />
+                <span asp-validation-for="Baslik" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Url" class="control-label">Url</label>
+                <input asp-for="Url" class="form-control" />
+                <span asp-validation-for="Url" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Sira" class="control-label">Sıra</label>
+                <input asp-for="Sira" class="form-control" />
+                <span asp-validation-for="Sira" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UstId" class="control-label">Üst Menu</label>
+                <select asp-for="UstId" asp-items="ViewBag.ustmenu" class="form-control"></select>
+                <span asp-validation-for="UstId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Aktif" class="control-label"></label>
+                <select asp-for="Aktif" class="form-control">
+                    <option value="True">Evet</option>
+                    <option value="False">Hayır</option>
+                </select>
+                <span asp-validation-for="Aktif" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" value="Ekle" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Menuler">Geri</a>
+</div>
+

@@ -1,0 +1,371 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - BilimveTeknolojiHaberSitesi</title>
+   
+    <link rel="stylesheet" href="~/assets/css/site.css" />
+    <link rel="stylesheet" href="~/assets/css/style-starter.css">
+    <link href="//fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400&display=swap"
+          rel="stylesheet">
+    <style type="text/css">
+        button:focus {
+            outline: 0;
+        }
+
+        .navbar .dropdown-menu .form-control {
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <header id="site-header" class="fixed-top">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg stroke">
+                <h1>
+                    <a class="navbar-brand mr-lg-5" href="/Home/Index">
+                       BilimSeli.com
+                    </a>
+                </h1>
+                <!-- if logo is image enable this
+                <a class="navbar-brand" href="#index.html">
+                    <img src="image-path" alt="Your logo" title="Your logo" style="height:35px;" />
+                </a> -->
+                <button class="navbar-toggler  collapsed bg-gradient" type="button" data-toggle="collapse"
+                        data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon fa icon-expand fa-bars"></span>
+                    <span class="navbar-toggler-icon fa icon-close fa-times"></span>
+                  
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                    <ul class="navbar-nav mr-auto">
+                        @{
+                            BilimHaberDBContext db = new BilimHaberDBContext();
+                            var ustmenuler = db.Menulers.Where(menu => menu.UstId == null && menu.Silindi == false && menu.Aktif == true).OrderBy(a => a.Sira).ToList();
+                            foreach (var item in ustmenuler)
+                            {
+                                var altmenuler = db.Menulers.Where(menu => menu.UstId == item.MenuId && menu.Silindi == false && menu.Aktif == true).OrderBy(a => a.Sira).ToList();
+                                if (altmenuler.Count == 0)
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="@item.Url">@item.Baslik</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" @item.UstId role="button" data-toggle="dropdown" aria-expanded="false">
+                                            @item.Baslik
+                                        </a>
+                                        <div class="dropdown-menu " aria-labelledby="navbarDropdown1" @item.UstId>
+                                            @foreach (var items in altmenuler)
+                                            {
+                                                <a class="dropdown-item " href="@items.Url">@items.Baslik</a>
+
+                                            }
+                                        </div>
+                                    </li>
+                                }
+                            }
+
+
+
+}
+
+
+                    </ul>
+                    <ul class="nav navbar-nav flex-row justify-content-between ml-auto">
+
+                        @{
+                            @using System.Security.Claims
+
+                                        try
+                                        {
+                                            String kullanici = User.FindFirstValue(ClaimTypes.Email).ToString();
+                                           <li class="dropdown order-1">
+                                    <a asp-action="CikisYap" asp-controller="Giris" id="dropdownMenu1" class="btn btn-outline-secondary dropdown-toggle" onclick="return confirm('Çıkış yapmak istediğinizden emin misiniz?')">Çıkış Yap</a>
+                                           </li>
+                            }
+                          catch
+                            {
+                                <li class="nav-item order-2 order-md-1"><a href="#" class="nav-link" title="settings"></a></li>
+                                <li class="dropdown order-1">
+                                    <button type="button" id="dropdownMenu1" data-toggle="dropdown" class="btn btn-outline-secondary dropdown-toggle">Giriş <span class="caret"></span></button>
+                                    <ul class="dropdown-menu dropdown-menu-right mt-1">
+                                        <li class="p-3">
+                                            <form class="form" role="form" method="post" action="/Giris/GirisYap">
+                                                <div class="form-group">
+                                                    <input id="Eposta" placeholder="Email" class="form-control form-control-sm" name="Eposta" type="text">
+                                                </div>
+                                                <div class="form-group">
+                                                    <input id="Parola" placeholder="Password" class="form-control form-control-sm" name="Parola" type="password">
+                                                </div>
+                                                <div class="form-group">
+                                                    <button type="submit" class="btn btn-primary btn-block">Giriş</button>
+                                                </div>
+                                                <div class="form-group text-xs-center">
+                                                    <small><a href="#">Parolamı Unuttum</a></small>
+                                                    <small><a asp-action="UyeKayitFormu" asp-controller="About">Kaydol</a></small>
+                                                </div>
+                                            </form>
+                                        </li>
+                                    </ul>
+
+                                </li>
+                            }
+
+                        }
+
+
+                    </ul>
+
+                </div>
+                <div class="d-lg-block d-none">
+
+
+                </div>
+                <!-- toggle switch for light and dark theme -->
+                <div class="mobile-position">
+                    <nav class="navigation">
+                        <div class="theme-switch-wrapper">
+                            <label class="theme-switch" for="checkbox">
+                                <input type="checkbox" id="checkbox">
+                                <div class="mode-container">
+                                    <i class="gg-sun"></i>
+                                    <i class="gg-moon"></i>
+                                </div>
+                            </label>
+                        </div>
+                    </nav>
+                </div>
+                <!-- //toggle switch for light and dark theme -->
+            </nav>
+        </div>
+    </header>
+    @*<header>
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                <div class="container">
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Bilimseli.com</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>*@
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <!--  #Region -->
+    <footer>
+        <!-- footer -->
+        <section class="w3l-footer">
+            <div class="w3l-footer-16-main py-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 column">
+                            <div class="row">
+                                <div class="col-md-4 column">
+                                    <h3>Company</h3>
+                                    <ul class="footer-gd-16">
+                                        <li><a href="index.html">Home</a></li>
+                                        <li><a href="about.html">About Us</a></li>
+                                        <li><a href="services.html">Services</a></li>
+                                        <li><a href="blog.html">Blog</a></li>
+                                        <li><a href="contact.html">Contact Us</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4 column mt-md-0 mt-4">
+                                    <h3>Useful Links</h3>
+                                    <ul class="footer-gd-16">
+                                        <li><a href="#url">Destinations</a></li>
+                                        <li><a href="#url">Our Branches</a></li>
+                                        <li><a href="#url">Latest Media</a></li>
+                                        <li><a href="about.html">About Company</a></li>
+                                        <li><a href="#url">Our Packages</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4 column mt-md-0 mt-4">
+                                    <h3>Our Services</h3>
+                                    <ul class="footer-gd-16">
+                                        <li><a href="#url">Privacy Policy</a></li>
+                                        <li><a href="#url">Our Terms</a></li>
+                                        <li><a href="services.html">Services</a></li>
+                                        <li><a href="landing-single.html">Landing Page</a></li>
+                                        <li><a href="#url">Our Guides</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12 column pl-lg-5 column4 mt-lg-0 mt-5">
+                            <h3>Newsletter </h3>
+                            <div class="end-column">
+                                <h4>Get latest updates and offers.</h4>
+                                <form action="#" class="subscribe" method="post">
+                                    <input type="email" name="email" placeholder="Email Address" required="">
+                                    <button type="submit">Go</button>
+                                </form>
+                                <p>Sign up for our latest news & articles. We won’t give you spam mails.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex below-section justify-content-between align-items-center pt-4 mt-5">
+                        <div class="columns text-lg-left text-center">
+                            <p>
+                                &copy; 2020 Traversal. All rights reserved.Design by <a href="https://w3layouts.com/" target="_blank">
+                                    W3Layouts
+                                </a>
+                            </p>
+                        </div>
+                        <div class="columns-2 mt-lg-0 mt-3">
+                            <ul class="social">
+                                <li>
+                                    <a href="#facebook"><span class="fa fa-facebook" aria-hidden="true"></span></a>
+                                </li>
+                                <li>
+                                    <a href="#linkedin"><span class="fa fa-linkedin" aria-hidden="true"></span></a>
+                                </li>
+                                <li>
+                                    <a href="#twitter"><span class="fa fa-twitter" aria-hidden="true"></span></a>
+                                </li>
+                                <li>
+                                    <a href="#google"><span class="fa fa-google-plus" aria-hidden="true"></span></a>
+                                </li>
+                                <li>
+                                    <a href="#github"><span class="fa fa-github" aria-hidden="true"></span></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- move top -->
+            <button onclick="topFunction()" id="movetop" title="Go to top">
+                <span class="fa fa-angle-up"></span>
+            </button>
+            <script>
+                // When the user scrolls down 20px from the top of the document, show the button
+                window.onscroll = function () {
+                    scrollFunction()
+                };
+
+                function scrollFunction() {
+                    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                        document.getElementById("movetop").style.display = "block";
+                    } else {
+                        document.getElementById("movetop").style.display = "none";
+                    }
+                }
+
+                // When the user clicks on the button, scroll to the top of the document
+                function topFunction() {
+                    document.body.scrollTop = 0;
+                    document.documentElement.scrollTop = 0;
+                }
+            </script>
+            <!-- //move top -->
+            <script>
+                $(function () {
+                    $('.navbar-toggler').click(function () {
+                        $('body').toggleClass('noscroll');
+                    })
+                });
+            </script>
+        </section>
+        <!-- //footer -->
+    </footer>
+    <!-- Template JavaScript -->
+    <script src="~/assets/js/jquery-3.3.1.min.js"></script>
+    <script src="~/assets/js/theme-change.js"></script>
+    <!--/slider-js-->
+    <script src="~/assets/js/jquery.min.js"></script>
+    <script src="~/assets/js/modernizr-2.6.2.min.js"></script>
+    <script src="~/assets/js/jquery.zoomslider.min.js"></script>
+    <!--//slider-js-->
+    <script src="~/assets/js/owl.carousel.js"></script>
+    <!-- script for tesimonials carousel slider -->
+    <script>
+        $(document).ready(function () {
+            $("#owl-demo1").owlCarousel({
+                loop: true,
+                margin: 20,
+                nav: false,
+                responsiveClass: true,
+                responsive: {
+                    0: {
+                        items: 1,
+                        nav: false
+                    },
+                    736: {
+                        items: 1,
+                        nav: false
+                    },
+                    1000: {
+                        items: 1,
+                        nav: false,
+                        loop: true
+                    }
+                }
+            })
+        })
+    </script>
+    <!-- //script for tesimonials carousel slider -->
+    <!-- stats number counter-->
+    <script src="~/assets/js/jquery.waypoints.min.js"></script>
+    <script src="~/assets/js/jquery.countup.js"></script>
+    <script>
+        $('.counter').countUp();
+    </script>
+    <!-- //stats number counter -->
+    <!--/MENU-JS-->
+    <script>
+        $(window).on("scroll", function () {
+            var scroll = $(window).scrollTop();
+
+            if (scroll >= 80) {
+                $("#site-header").addClass("nav-fixed");
+            } else {
+                $("#site-header").removeClass("nav-fixed");
+            }
+        });
+
+        //Main navigation Active Class Add Remove
+        $(".navbar-toggler").on("click", function () {
+            $("header").toggleClass("active");
+        });
+        $(document).on("ready", function () {
+            if ($(window).width() > 991) {
+                $("header").removeClass("active");
+            }
+            $(window).on("resize", function () {
+                if ($(window).width() > 991) {
+                    $("header").removeClass("active");
+                }
+            });
+        });
+    </script>
+    <!-- ##End Region-->
+    <!--//MENU-JS-->
+
+    <script src="~/assets/js/bootstrap.min.js"></script>
+   
+    <script src="~/assets/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

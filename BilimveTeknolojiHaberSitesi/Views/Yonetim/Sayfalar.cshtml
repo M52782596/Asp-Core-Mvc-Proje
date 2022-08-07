@@ -1,0 +1,72 @@
+﻿@model IEnumerable<BilimveTeknolojiHaberSitesi.Models.Sayfalar>
+
+@{
+    ViewData["Title"] = "Sayfalar";
+    Layout = "~/Views/Shared/_YonetimTema.cshtml";
+}
+
+<h1>Sayfalar</h1>
+
+<p>
+    <a asp-action="SayfaEkle">Yeni Sayfa Ekle</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Baslik)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.Icerik)
+            </th>*@
+            @*<th>
+                @Html.DisplayNameFor(model => model.Resim)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Aktif)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.Silindi)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.EklenmeTarihi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Menu)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Baslik)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.Icerik)
+            </td>*@
+            @*<td>
+                @Html.DisplayFor(modelItem => item.Resim)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Aktif)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.Silindi)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.EklenmeTarihi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Menu.Baslik)
+            </td>
+            <td>
+                <a asp-action="SayfaGetir" asp-route-id="@item.SayfaId">Düzenle</a> |
+              
+                <a asp-action="SayfaSil" asp-route-id="@item.SayfaId" onclick="return confirm('Bu sayfayı silmek istediğinizden emin misiniz?')">Sil</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,114 @@
+﻿@model BilimveTeknolojiHaberSitesi.Models.Makaleler
+
+@{
+    ViewData["Title"] = "MakaleDetayi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    @using System.Security.Claims;
+   
+
+    int kulid = Convert.ToInt32(Model.KulId);
+    int makaleid = Convert.ToInt32(Model.MakaleId);
+    BilimHaberDBContext db = new BilimHaberDBContext();
+    var yorumlar = db.Yorumlars.Where(a => a.Aktif == true && a.Silindi == false && a.MakaleId == makaleid).OrderByDescending(b => b.Tarih).ToList();
+    var kullanici = db.Kullanicilars.Where(a => a.KullaniciId == kulid).FirstOrDefault();
+    String eklenmetarihi = Convert.ToDateTime(@Model.Eklenmetarihi).ToShortDateString();
+}
+<section class="w3l-cta4 py-5">
+    <div class="container py-lg-5">
+        <div class="row mt-5">
+            <div class="col-md-9 mx-auto">
+
+                <h6 class="sub-title">@Model.Baslik</h6>
+                <img src="~/assets/images/banner3.jpg" class="img-fluid" alt="">
+
+                <p class="py-3 mb-3">
+
+                    @Html.Raw(Model.Icerik)
+                </p>
+                <p class="text-left">Yazar : @kullanici.Adı  &nbsp; @kullanici.Soyadı</p>
+                <p class="text-left">Eklenme Tarihi  :@eklenmetarihi </p>
+            </div>
+
+
+
+
+
+        </div>
+
+        <div class="headings d-flex justify-content-between align-items-center mb-3">
+            <h5>(@yorumlar.Count)Yorum</h5>
+        </div>
+
+        @foreach (var item in yorumlar)
+
+        {
+            int kul = Convert.ToInt32(item.KulId);
+            string tarih = Convert.ToDateTime(item.Tarih).ToShortDateString();
+
+            var yorumsahibi = db.Kullanicilars.Where(a => a.KullaniciId == kul).FirstOrDefault();
+            <div class="ab-section text-justify">
+
+
+                <div class="card p-3 mt-2">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div class="user d-flex flex-row align-items-center">
+
+
+                            <span><small class="font-weight-bold text-primary"></small>@yorumsahibi.Adı &nbsp; @yorumsahibi.Soyadı <small class="font-weight-bold">@item.Yorum</small></span>
+
+                        </div>
+
+
+                        <small>@tarih</small>
+
+                    </div>
+
+                </div>
+            </div>
+        }
+        @{ 
+            try
+            {
+                string identid =User.FindFirstValue(ClaimTypes.NameIdentifier).ToString();
+                <form asp-action="YorumYap" asp-controller="Yazilar" method="post">
+                    <input type="hidden" id="KulId" name="KulId" value="@identid" />
+                    <input type="hidden" id="MakaleId" name="MakaleId" value="@Model.MakaleId" />
+                    <div class="bg-light p-2">
+                        <h5>Yorum Yap</h5>
+                        <br/>
+                        <div class="d-flex flex-row align-items-start">
+                        <textarea class="form-control ml-1 shadow-none textarea" id="Yorum" name="Yorum">
+                         </textarea></div>
+                        <div class="mt-2 text-right"><button class="btn btn-primary btn-sm shadow-none" type="submit" />Yorum Yap</div>
+                    </div>
+                </form>
+                if (@TempData["mesaj"]!=null)
+                {
+    <div class="alert">
+       @TempData["mesaj"]
+    </div>
+                }
+
+            }
+            catch
+            {
+
+
+            }
+
+        }
+       
+           
+      
+
+
+
+    </div>
+
+</section>
+

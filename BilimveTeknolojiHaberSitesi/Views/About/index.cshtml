@@ -1,0 +1,49 @@
+﻿@model BilimveTeknolojiHaberSitesi.Models.Sayfalar
+
+@{
+    ViewData["Title"] = "index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+
+    <section class="w3l-about-breadcrumb text-left">
+        <div class="breadcrumb-bg breadcrumb-bg-about py-sm-5 py-4">
+            <div class="container py-2">
+                <h2 class="title">Hakkımızda</h2>
+                <ul class="breadcrumbs-custom-path mt-2">
+                    <li><a href="/Home/index">Anasayfa</a></li>
+                    <li class="active"><span class="fa fa-arrow-right mx-2" aria-hidden="true"></span> Hakkımızda </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <section class="w3l-content-6 py-5">
+        <div class="container py-lg-5">
+            <div class="row">
+                <div class="col-lg-6 content-6-left pr-lg-5">
+                    <h6 class="sub-title">Neden Bizi Seçmelisiniz?</h6>
+                    <h3 class="hny-title">@Model.Baslik</h3>
+                </div>
+                <div class="col-lg-6 content-6-right mt-lg-0 mt-4">
+                    <p class="mb-3">
+                       @Html.Raw(Model.Icerik)
+                    </p>
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+
+
+
+    
+
+
+
+

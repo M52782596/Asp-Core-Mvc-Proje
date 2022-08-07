@@ -1,0 +1,83 @@
+﻿
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .dst-btm p {
+        word-break: break-word;
+    }
+</style>
+<div class="text-center">
+
+    <section class="w3l-grids-3 py-5">
+        <div class="container py-md-5">
+            <div class="title-content text-left mb-lg-5 mb-4">
+                <h7 class="sub-title">Anasayfa/Bilim & Teknoloji</h7>
+
+            </div>
+            <div class="row bottom-ab-grids">
+
+                @{
+                    BilimHaberDBContext db = new BilimHaberDBContext();
+
+
+                    var makaleler = db.Makalelers.Where(a => a.Aktif == true && a.Silindi == false).ToList();
+
+                    foreach (var item in makaleler)
+                    {
+                        var sub = "";
+                        int icerikuzunlugu = 0;
+                        if (item.Icerik != null)
+                        {
+                            icerikuzunlugu = Convert.ToInt32(item.Icerik.Length);
+                        }
+
+                        if (icerikuzunlugu < 160)
+                        { sub = item.Icerik; }
+                        else if (item.Icerik == null)
+                        {
+                            sub = "";
+                        }
+                        else
+                        {
+                            sub = item.Icerik.Substring(0, 150);
+
+                        }
+                                <div class="col-lg-6 subject-card mt-lg-0 mt-4">
+                                   
+                                    <div class="subject-card-header p-4">
+                                        <a href="/Yazilar/MakaleDetayi/@item.MakaleId" class="card_title p-lg-4d-block">
+                                            <div class="row align-items-center">
+                                                <div class="col-sm-5 subject-img">
+                                                    <img src="~/assets/images/g1.jpg" class="img-fluid" alt="">
+                                                </div>
+                                                <div class="col-sm-7 subject-content mt-sm-0 mt-4">
+                                                    <h4>@item.Baslik</h4>
+
+                                                    <div class="dst-btm text-justify">
+                                                        <p class="sub-para">@Html.Raw(sub)</p>
+                                                        <span> </span>
+                                                    </div>
+                                                    <div>
+                                                        <p class="sub-para">Haberin Tamamı için Tıklayınız </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                        }
+
+                }
+
+            </div>
+        </div>
+        
+    </section>
+   
+</div>
+
+
+    

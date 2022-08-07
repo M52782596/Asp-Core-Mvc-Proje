@@ -1,0 +1,28 @@
+﻿@model Sayfalar
+@{
+    ViewData["Title"] = "BilimselBilgiler";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="w3l-cta4 py-5">
+    <div class="container py-lg-5">
+        <div class="row mt-5">
+            <div class="col-md-9 mx-auto">
+                <h6 class="sub-title">@Model.Baslik</h6>
+                <img src="~/assets/images/banner3.jpg" class="img-fluid" alt="">
+                <p class="py-3 mb-3">
+                    @Html.Raw(Model.Icerik)
+                </p>
+            </div>
+        </div>
+
+
+        <div class="ab-section text-justify">
+            
+
+        </div>
+
+
+    </div>
+</section>
+

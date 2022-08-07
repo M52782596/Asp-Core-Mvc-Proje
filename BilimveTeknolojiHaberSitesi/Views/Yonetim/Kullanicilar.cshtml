@@ -1,0 +1,78 @@
+﻿@model IEnumerable<BilimveTeknolojiHaberSitesi.Models.Kullanicilar>
+
+@{
+    ViewData["Title"] = "Kullanicilar";
+    Layout = "~/Views/Shared/_YonetimTema.cshtml";
+}
+
+<h1>Kullanicilar</h1>
+
+<p>
+    <a asp-action="KullaniciEkle">Ekle</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Adı)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Soyadı)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Eposta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EklenmeTarihi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Parola)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Aktif)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Silindi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Yetki)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Adı)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Soyadı)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Eposta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EklenmeTarihi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Parola)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Aktif)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Silindi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Yetki.YetkiId)
+            </td>
+            <td>
+                <a asp-action="KullaniciGetir" asp-route-id="@item.KullaniciId">Düzenle</a> |
+                |
+                <a asp-action="KullaniciSil" asp-route-id="@item.KullaniciId" onclick="return confirm('Silmek İstiyor musunuz?')">Sil</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
